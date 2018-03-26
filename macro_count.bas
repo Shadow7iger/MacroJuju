@@ -5,16 +5,10 @@ Sub juju()
     Dim i As Integer
     Dim rep As String
     Dim nomFichier As String
-    Dim feuille As String
-    Dim splitA As Variant
-    Dim nvNom As String
+    Dim currSheet As String
+    Dim nomSouris As String
     nomFichier = ActiveWorkbook.Name
-    rep = ActiveWorkbook.Path
-    
-    '......................................
-    ChDir rep 'R�pertoire par d�faut de la fenetre de selections de fichiers (ActiveWorkbook.Path = chemin du fichier excel ouvert)
-    '......................................
-
+    ChDir ActiveWorkbook.Path 'R�pertoire par d�faut de la fenetre de selections de fichiers (ActiveWorkbook.Path = chemin du fichier excel ouvert)
   
     fileNames = Application.GetOpenFilename("Excel Files,*.cmf", , , , True) 'R�cuperation des fichiers
     
@@ -22,25 +16,35 @@ Sub juju()
     If IsArray(fileNames) Then
         For i = LBound(fileNames) To UBound(fileNames) 'Boucle de traitement de tout les fichiers
 
-            splitA = Split(fileNames(i),"\")
-            splitA = Split(splitA(UBound(splitA)),".")
-            feuille = splitA(0)
+            currSheet = recupNomSheet(fileNames(i)) 'recuperation nom feuille
+            nomSouris = recupNomSouris(currSheet) 'recuperation du nom de la souris  
 
-            Workbooks.Open Filename:=fileNames(i) 'ouverture du fichier
-            
-            Sheets(feuille).Copy After:=Workbooks(nomFichier).Sheets(i) 'copie de la feuille results
+            Workbooks.Open Filename:=fileNames(i) 'ouverture du fichier            
+            Sheets(currSheet).Copy After:=Workbooks(nomFichier).Sheets(i) 'copie de la feuille results
+            Worksheets(currSheet).Name = nomSouris 'renomage de la feuille
 
-            'recuperation du nom de la souris:            
-            splitA = Split(feuille, " ")
-            splitA = Split(splitA(UBound(splitA)), ".")
-            nvNom = splitA(0)
-            
-            Worksheets(feuille).Name = nvNom 'renomage de la feuille
-
-            rep = Mid(fileNames(i), InStrRev(fileNames(i), "\") + 1) 'r�cuperation du nom du fchier
-            Workbooks(rep).Close False 'fermeture du fichier
-            
+            fermerFichier(fileNames(i))
         Next i
     End If
      
 End Sub
+
+Function recupNomSheet(nomWorkbook)
+    Dim splitA As Variant 
+    splitA = Split(nomWorkbook,"\")
+    splitA = Split(splitA(UBound(splitA)),".")
+    recupNomSheet = splitA(0)
+End Function
+
+Function recupNomSouris(sheet)
+    Dim splitA As Variant
+    splitA = Split(sheet, " ")
+    splitA = Split(splitA(UBound(splitA)), ".")
+    recupNomSouris = splitA(0)
+End Function
+
+Function fermerFichier(cheminFichier)
+    Dim rep As String
+    rep = Mid(cheminFichier, InStrRev(cheminFichier, "\") + 1)
+    Workbooks(rep).Close False
+End Function
