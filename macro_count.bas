@@ -17,7 +17,7 @@ Sub juju()
         For i = LBound(fileNames) To UBound(fileNames) 'Boucle de traitement de tout les fichiers
 
             currSheet = recupNomSheet(fileNames(i)) 'recuperation nom feuille
-            nomSouris = recupNomSouris(currSheet) 'recuperation du nom de la souris  
+            nomSouris = recupNomSouris(currSheet, " ") 'recuperation du nom de la souris  
 
             Workbooks.Open Filename:=fileNames(i) 'ouverture du fichier            
             Sheets(currSheet).Copy After:=Workbooks(nomFichier).Sheets(i) 'copie de la feuille results
@@ -36,9 +36,9 @@ Function recupNomSheet(nomWorkbook)
     recupNomSheet = splitA(0)
 End Function
 
-Function recupNomSouris(sheet)
+Function recupNomSouris(sheet,sep)
     Dim splitA As Variant
-    splitA = Split(sheet, " ")
+    splitA = Split(sheet, sep)
     splitA = Split(splitA(UBound(splitA)), ".")
     recupNomSouris = splitA(0)
 End Function
