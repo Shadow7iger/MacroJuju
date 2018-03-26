@@ -30,13 +30,13 @@ Sub juju()
             
             Sheets(feuille).Copy After:=Workbooks(nomFichier).Sheets(i) 'copie de la feuille results
 
-            'recuperation du nom de la souris:
-            splitA = Split(feuille,"-") 
-            splitA = Split(splitA(UBound(a)),".") 
-            nvNom = a(0)
-
-            Worksheets(feuille).Name = a(0) 'renomage de la feuille
+            'recuperation du nom de la souris:            
+            splitA = Split(feuille, "-")
+            splitA = Split(splitA(UBound(splitA)), ".")
+            nvNom = splitA(0)
             
+            Worksheets(feuille).Name = nvNom 'renomage de la feuille
+
             rep = Mid(fileNames(i), InStrRev(fileNames(i), "\") + 1) 'r�cuperation du nom du fchier
             Workbooks(rep).Close False 'fermeture du fichier
             
