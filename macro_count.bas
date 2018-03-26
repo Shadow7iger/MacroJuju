@@ -1,6 +1,5 @@
-Attribute VB_Name = "Module11"
+
 Sub juju()
-Attribute juju.VB_ProcData.VB_Invoke_Func = "q\n14"
     'd�claratin des varaibles
     Dim fileNames As Variant
     Dim i As Integer
@@ -22,7 +21,10 @@ Attribute juju.VB_ProcData.VB_Invoke_Func = "q\n14"
     'traitement des fichiers
     If IsArray(fileNames) Then
         For i = LBound(fileNames) To UBound(fileNames) 'Boucle de traitement de tout les fichiers
-            feuille = fileNames(i)
+
+            splitA = Split(fileNames(i),".")
+            feuille = splitA(0)
+
             Workbooks.Open Filename:=fileNames(i) 'ouverture du fichier
             
             Sheets(feuille).Copy After:=Workbooks(nomFichier).Sheets(i) 'copie de la feuille results
@@ -41,5 +43,3 @@ Attribute juju.VB_ProcData.VB_Invoke_Func = "q\n14"
     End If
      
 End Sub
-
-
