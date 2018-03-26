@@ -22,7 +22,8 @@ Sub juju()
     If IsArray(fileNames) Then
         For i = LBound(fileNames) To UBound(fileNames) 'Boucle de traitement de tout les fichiers
 
-            splitA = Split(fileNames(i),".")
+            splitA = Split(fileNames(i),"\")
+            splitA = Split(splitA(UBound(splitA)),".")
             feuille = splitA(0)
 
             Workbooks.Open Filename:=fileNames(i) 'ouverture du fichier
