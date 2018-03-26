@@ -31,7 +31,7 @@ Sub juju()
             Sheets(feuille).Copy After:=Workbooks(nomFichier).Sheets(i) 'copie de la feuille results
 
             'recuperation du nom de la souris:            
-            splitA = Split(feuille, "-")
+            splitA = Split(feuille, " ")
             splitA = Split(splitA(UBound(splitA)), ".")
             nvNom = splitA(0)
             
